@@ -1,7 +1,9 @@
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import CampsiteInfoScreen from './CampsiteInfoScreen';
 import DirectoryScreen from './DirectoryScreen';
 import HomeScreen from './HomeScreen';
+import AboutScreen from './AboutScreen';
+import ContactScreen from './ContactScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -20,6 +22,32 @@ const HomeNavigator = () => {
 				name='Home'
 				component={HomeScreen}
 				options={{ title: 'Home' }}
+			/>
+		</Stack.Navigator>
+	);
+};
+
+const AboutNavigator = () => {
+	const Stack = createStackNavigator();
+	return (
+		<Stack.Navigator screenOptions={screenOptions}>
+			<Stack.Screen
+				name='About'
+				component={AboutScreen}
+				options={{ title: 'About' }}
+			/>
+		</Stack.Navigator>
+	);
+};
+
+const ContactNavigator = () => {
+	const Stack = createStackNavigator();
+	return (
+		<Stack.Navigator screenOptions={screenOptions}>
+			<Stack.Screen
+				name='Contact'
+				component={ContactScreen}
+				options={{ title: 'Contact' }}
 			/>
 		</Stack.Navigator>
 	);
@@ -66,6 +94,8 @@ const Main = () => {
 					component={DirectoryNavigator}
 					options={{ title: 'Directory' }}
 				/>
+				<Drawer.Screen name='About' component={AboutNavigator} />
+				<Drawer.Screen name='Contact Us' component={ContactNavigator} />
 			</Drawer.Navigator>
 		</View>
 	);
