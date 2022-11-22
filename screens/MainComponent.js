@@ -1,35 +1,36 @@
-import { Image, Text, View, StyleSheet } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Image, Text, View, StyleSheet } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
 import {
 	createDrawerNavigator,
 	DrawerContentScrollView,
 	DrawerItemList,
-} from '@react-navigation/drawer';
-import CampsiteInfoScreen from './CampsiteInfoScreen';
-import DirectoryScreen from './DirectoryScreen';
-import HomeScreen from './HomeScreen';
-import AboutScreen from './AboutScreen';
-import ContactScreen from './ContactScreen';
-import ReservationScreen from './ReservationScreen';
-import FavoritesScreen from './FavoritesScreen';
-import { Icon } from 'react-native-elements';
-import logo from '../assets/images/logo.png';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchPartners } from '../features/partners/partnersSlice';
-import { fetchCampsites } from '../features/campsites/campsitesSlice';
-import { fetchPromotions } from '../features/promotions/promotionsSlice';
-import { fetchComments } from '../features/comments/commentsSlice';
+} from '@react-navigation/drawer'
+import CampsiteInfoScreen from './CampsiteInfoScreen'
+import DirectoryScreen from './DirectoryScreen'
+import HomeScreen from './HomeScreen'
+import AboutScreen from './AboutScreen'
+import ContactScreen from './ContactScreen'
+import ReservationScreen from './ReservationScreen'
+import FavoritesScreen from './FavoritesScreen'
+import LoginScreen from './LoginScreen'
+import { Icon } from 'react-native-elements'
+import logo from '../assets/images/logo.png'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchPartners } from '../features/partners/partnersSlice'
+import { fetchCampsites } from '../features/campsites/campsitesSlice'
+import { fetchPromotions } from '../features/promotions/promotionsSlice'
+import { fetchComments } from '../features/comments/commentsSlice'
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator()
 
 const screenOptions = {
 	headerStyle: { backgroundColor: '#5637DD' },
 	headerTintColor: '#fff',
-};
+}
 
 const HomeNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen
@@ -48,11 +49,11 @@ const HomeNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const AboutNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen
@@ -70,11 +71,11 @@ const AboutNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const ContactNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen
@@ -93,11 +94,11 @@ const ContactNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const ReservationNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen
@@ -116,11 +117,11 @@ const ReservationNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const DirectoryNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator initialRouteName='Directory' screenOptions={screenOptions}>
 			<Stack.Screen
@@ -146,11 +147,11 @@ const DirectoryNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
 
 const FavoritesNavigator = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator()
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
 			<Stack.Screen
@@ -169,8 +170,30 @@ const FavoritesNavigator = () => {
 				})}
 			/>
 		</Stack.Navigator>
-	);
-};
+	)
+}
+
+const LoginNavigator = () => {
+	const Stack = createStackNavigator()
+	return (
+		<Stack.Navigator screenOptions={screenOptions}>
+			<Stack.Screen
+				name='Login'
+				component={LoginScreen}
+				options={({ navigation }) => ({
+					headerLeft: () => (
+						<Icon
+							name='sign-in'
+							type='font-awesome'
+							iconStyle={styles.stackIcon}
+							onPress={() => navigation.toggleDrawer()}
+						/>
+					),
+				})}
+			/>
+		</Stack.Navigator>
+	)
+}
 
 const CustomDrawerContent = (props) => (
 	<DrawerContentScrollView {...props}>
@@ -184,17 +207,17 @@ const CustomDrawerContent = (props) => (
 		</View>
 		<DrawerItemList {...props} labelStyle={{ fontWeight: 'bold' }} />
 	</DrawerContentScrollView>
-);
+)
 
 const Main = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(fetchCampsites());
-		dispatch(fetchPromotions());
-		dispatch(fetchPartners());
-		dispatch(fetchComments());
-	}, [dispatch]);
+		dispatch(fetchCampsites())
+		dispatch(fetchPromotions())
+		dispatch(fetchPartners())
+		dispatch(fetchComments())
+	}, [dispatch])
 
 	return (
 		<View
@@ -207,6 +230,21 @@ const Main = () => {
 				drawerContent={CustomDrawerContent}
 				drawerStyle={{ backgroundColor: '#CEC8FF' }}
 			>
+				<Drawer.Screen
+					name='Login'
+					component={LoginNavigator}
+					options={{
+						drawerIcon: ({ color }) => (
+							<Icon
+								name='sign-in'
+								type='font-awesome'
+								size={24}
+								iconStyle={{ width: 24 }}
+								color={color}
+							/>
+						),
+					}}
+				/>
 				<Drawer.Screen
 					name='Home'
 					component={HomeNavigator}
@@ -305,8 +343,8 @@ const Main = () => {
 				/>
 			</Drawer.Navigator>
 		</View>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	drawerHeader: {
@@ -332,6 +370,6 @@ const styles = StyleSheet.create({
 		color: '#fff',
 		fontSize: 24,
 	},
-});
+})
 
-export default Main;
+export default Main
