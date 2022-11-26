@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as ImagePicker from 'expo-image-picker'
 import { baseUrl } from '../shared/baseUrl'
 import logo from '../assets/images/logo.png'
+import * as ImageManipulator from 'expo-image-manipulator'
+import * as MediaLibrary from 'expo-media-library'
 
 const LoginTab = ({ navigation }) => {
 	const [username, setUsername] = useState('')
@@ -143,7 +145,34 @@ const RegisterTab = () => {
 			})
 			if (!capturedImage.cancelled) {
 				console.log(capturedImage)
-				setImageUrl(capturedImage.uri)
+				processImage(capturedImage.uri)
+			}
+		}
+	}
+
+	const processImage = async (imgUri) => {
+		const processedImage = await ImageManipulator.manipulateAsync(
+			imgUri,
+			[{ resize: { width: 400 } }],
+			{ format: ImageManipulator.SaveFormat.PNG }
+		)
+		console.log(processedImage)
+		setImageUrl(processedImage.uri)
+		MediaLibrary.saveToLibraryAsync(processedImage.uri)
+	}
+
+	const getImageFromGallery = async () => {
+		const mediaLibraryPermissions =
+			await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+		if (mediaLibraryPermissions) {
+			const capturedImage = await ImagePicker.launchImageLibraryAsync({
+				allowsEditing: true,
+				aspect: [1, 1],
+			})
+			if (!capturedImage.cancelled) {
+				console.log(capturedImage)
+				processImage(capturedImage.uri)
 			}
 		}
 	}
@@ -158,6 +187,7 @@ const RegisterTab = () => {
 						style={styles.image}
 					/>
 					<Button title='Camera' onPress={getImageFromCamera} />
+					<Button title='Gallery' onPress={getImageFromGallery} />
 				</View>
 				<Input
 					placeholder='Username'
